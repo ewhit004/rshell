@@ -5,15 +5,14 @@
 Our goal for this assignment is to design a command shell called RShell with C++. The command shell should be designed to contain a prompt that will read a given command and print it on one line. Therefore, the RShell we will design will contain executables that will be located in the specified PATH setting; containing zero or more arguments separated by spaces or connectors (&& and | |). There are three conditions that me and my partner will reference for the connectors of a command used in this assignment. First, if a command is preceded by the “;” connector, then the command will always execute. If a command is followed by the “&&” connector, then the following command is only executed if the first command passes. The final condition is if a command is followed by the “| |” connector, then the next command is executed only if the first command fails. One final note for this assignment is that only commands that can be executed through PATH directories should be used in the shell; therefore, commands like “ls” and “cd” are not needed for this assignment.
 
 # *Design*
-
-
+![unnamed](https://user-images.githubusercontent.com/56050298/67903884-02760d00-fb2a-11e9-8053-bf3759fe157f.png)
 
 # *Classes* 
 **rShell (base class) →**
 This class is the implementation, virtual, class that will run functions as they arise in our RShell terminal. 
 || *virtual void print () = 0;* This function is purely virtual, which will permit it to be implemented in parent and subclasses. 
 || *virtual void execute(vector <Executable*> execs) = 0;*   This function is also purely virtual. However, our planned implementation                                                                for sub and parent classes, would be to let the user execute their commands                                                              on the lines given in our shell. It is passed in a vector of executable                                                                  files to be executed depending on the connector.
-|| *exit();*                 As the name implies, this function will allow the user to exit their current state in the program.
+|| *exit();*         As the name implies, this function will allow the user to exit their current state in the program.
 
 **executable class →** 
 This class does not inherit from rShell but is referenced by the CommandLine class. This class stores the information needed for each executable to actually be executed. This includes the number of arguments and an array of null terminated strings.
