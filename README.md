@@ -40,7 +40,7 @@ A class that will always execute the first Execute* in the vector, no matter wha
 
 # *Prototypes & Research*
 
-*Comments included with code for explanations*
+*Comments included with code for explanations of function calls.*
 
     #include <iostream>
 	#include <stdio.h>
