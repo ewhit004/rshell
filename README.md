@@ -102,8 +102,7 @@ A class that will always execute the first Execute* in the vector, no matter wha
 }
 
 # Roadmap 
-https://github.com/cs100/assignment-rshell/issues/3 - automatic!
-1. [Code the parser function.] (https://github.com/cs100/assignment-rshell/issues/3)                                                                      -->   Jorge
+1. Code the parser function.                                                                     -->   Jorge
 2. Verify how to access the last char of a string.                                                -->   Ethan
 3. Tweak CommandLine class since parsing takes place in main.                                     -->   Jorge
 4. Probably will need to reference Executable class in main to create vector of executables.      -->   Ethan
