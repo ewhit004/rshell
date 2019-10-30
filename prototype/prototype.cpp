@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//void commandParser(int argc, char* argv[]);
+void commandParser(int argc, char* argv[]);
 
 int main(int argc, char* argv[]) {
 	string fullcommand;
