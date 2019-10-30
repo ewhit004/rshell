@@ -39,6 +39,9 @@ A class that will execute the first Execute* in the vector and will move onto th
 A class that will always execute the first Execute* in the vector, no matter what, and execute the following executables regardless of failure or success.
 
 # *Prototypes & Research*
+
+*Comments included with code for explanations*
+
     #include <iostream>
 	#include <stdio.h>
 	#include <string>
