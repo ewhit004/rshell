@@ -106,7 +106,7 @@ A class that will always execute the first Execute* in the vector, no matter wha
 2. Verify how to access the last char of a string.                                                -->   Ethan
 3. Tweak CommandLine class since parsing takes place in main.                                     -->   Jorge
 4. Probably will need to reference Executable class in main to create vector of executables.      -->   Ethan
-5. Implement unit testing for execvp process and parsing.                                         -->   Ethan
+5. https://github.com/cs100/assignment-rshell/issues/8                                         -->   Ethan
 6. Implement integration testing for execvp process and parsing.                                  -->   Jorge
 
 
