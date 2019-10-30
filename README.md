@@ -84,12 +84,12 @@ A class that will always execute the first Execute* in the vector, no matter wha
 
        return 0;
 
-}
-void commandParser(int argc, char* argv[]) {
-        int executableCount = 0;
-        int connectorCount = 0;
-        int argumentCount = 0;
-        if (argc > 0) {
+       }
+       void commandParser(int argc, char* argv[]) {
+       int executableCount = 0;
+       int connectorCount = 0;
+       int argumentCount = 0;
+       if (argc > 0) {
                 ++executableCount; //first command will be executable
                 for (unsigned int i = 0; i < argc; ++i) {//iterate through everything in the argv.
                                 //for first and following executables, check last char in string to see if it is ';' connector
@@ -97,7 +97,7 @@ void commandParser(int argc, char* argv[]) {
                                 //if its none of these, then its an argument so ++argument
                 }
         }
-} '''
+}
 
 	
 
