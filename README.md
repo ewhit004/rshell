@@ -1,4 +1,4 @@
-# *CS 100 Programming Project*
+# CS 100 Programming Project
 **Creators:** Ethan White ~~ SID: 861312702 && Jorge Marin ~~ SID: 862009642
 
 # *Introduction*
