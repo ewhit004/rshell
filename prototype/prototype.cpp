@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <string.h>
 #include <string>
 #include <cstring>
 #include <unistd.h>
@@ -19,6 +20,7 @@ int main(int argc, char* argv[]) {
 		cout << argv[i] << " ";
 	}
 	cout << endl;
+	cout << "Last char in the first string is: " << argv[0][strlen(argv[0]) - 1] << endl;
 	char* updatedArgs[] = {argv[1], NULL};
 
 	/*We learned that if we want to execute a file from within the parent process, there are 3 main steps:
@@ -53,10 +55,11 @@ void commandParser(int argc, char* argv[]) {
 	int argumentCount = 0;
 	if (argc > 0) {
 		++executableCount; //first command will be executable
-		for (unsigned int i = 0; i < argc; ++i) {//iterate through everything in the argv.
+		for (unsigned int i = 1; i < argc; ++i) {//iterate through everything in the argv.
 				//for first and following executables, check last char in string to see if it is ';' connector
+			++executableCount;
 				//if it is, ++connectorCount and next arg is going to be another executable
 				//if its none of these, then its an argument so ++argument 
 		}
 	}
-
+}
