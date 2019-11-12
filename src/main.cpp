@@ -1,3 +1,8 @@
+#include "rShell.hpp"
+#include "Execute.hpp"
+#include "executeAND.hpp"
+#include "executeOR.hpp"
+#include "executeSEMI.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -6,6 +11,14 @@
 using namespace std;
 
 rShell* parse(string targetCommand);
+
+using namespace std;
+
+
+
+void print() {
+	cout << "$ " << endl;
+}
 
 int main() {
 	vector<string> parser;
