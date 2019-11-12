@@ -1,8 +1,18 @@
+#include "rShell.hpp"
+#include "Execute.hpp"
+#include "executeAND.hpp"
+#include "executeOR.hpp"
+#include "executeSEMI.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
-#include "rShell.hpp"
 using namespace std;
+
+
+
+void print() {
+	cout << "$ " << endl;
+}
 
 int main() {
 	string userCommand;
