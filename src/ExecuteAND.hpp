@@ -2,15 +2,15 @@
 #define __EXECUTE_AND_HPP__
 #include "rShell.hpp"
 #include <vector>
-
+#include <stdlib.h>
 using namespace std;
 
 class ExecuteAND : public rShell {
         public:
-                ExecuteAND() : rShell() {}
-		ExecuteAND(rShell *left, rShell *right) : rShell() {L = left; R = right;}
-                void execute;
-                void exit();
+               // ExecuteAND() : rShell() {}
+		ExecuteAND(rShell *left, rShell *right) : rShell() {this->left = left; this->right = right;}
+                bool execute();
+                void exitOut();
 
 	private:
 		rShell* left;

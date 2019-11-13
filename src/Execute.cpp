@@ -2,45 +2,48 @@
 #include <cstdio>
 #include <cstdlib>
 #include <stdio.h> //for perror and fork
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <vector>
 #include <string>
+#include "rShell.hpp"
 #include "Execute.hpp"
 using namespace std;
 
-Execute::Execute(vector<string> execs) { this->execs = execs; }
-
+/*Execute::Execute(vector<string> execs) { 
+	this->execs = execs; 
+}
+*/
 //----------------------------------------------------------------------
-
-bool result = true;
-
-pid_t pid = fork();
-
-if(pid < 0) {		//printing fork error
-	perror("fork");
-	else { return (1); }
-}
-
-else if(pid == 0) { 
-	if(execvp(execs [0], execs) < 0) { 
-		result = false;
-		perror("exec");
-		_exit(2);	//terminate calling process of child fork 
+bool Execute::execute() {
+	bool result = true;
+	
+	pid_t pid = fork();
+	
+	if(pid < 0) {		//printing fork error
+		perror("Error upon creating fork");
+		return false;
 	}
-	_exit(2);
+	else if(pid == 0) { 
+		execvp(this->argv[0], argv);
+		return false;
+	}	
+	else{	//start parent process of fork
+	/*	int status;
+		if(waitpid(pid, &status, 0) < 0) { perror("waitpid"); }    //execute
+		if(WEXITSTATUS(status) != 0) { result = false; }           //checks if child process has finished; if not, return false
+	*/
+		waitpid(pid, NULL, 0);
+		return true;
+	}	
+
 }
-
-else{	//start parent process of fork
-	int status;
-	if(waitpid(pid, &status, 0) < 0) { perror("waitpid"); }    //execute
-	if(WEXITSTATUS(status) != 0) { result = false; }           //checks if child process has finished; if not, return false
-}
-
-return result;
-
 //----------------------------------------------------------------------	
 
-void Execute::exit() { exit(); }
+void Execute::exitOut() { 
+	exit(0);
+}
+

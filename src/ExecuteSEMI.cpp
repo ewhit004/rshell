@@ -3,11 +3,11 @@
 using namespace std;
 
 bool ExecuteSEMI::execute() { 
-this->left->execute();
+	bool temp = this->left->execute();
 
-if(this->right->execute()){ return true; }
-    else{ return false; }
+	if(this->right->execute()){ return true; }
+	return false;
 }
 
-void ExecuteSEMI::exit() { exit(0); }
+void ExecuteSEMI::exitOut() { exit(0); }
 

@@ -1,137 +1,121 @@
 #include "rShell.hpp"
 #include "Execute.hpp"
-#include "executeAND.hpp"
-#include "executeOR.hpp"
-#include "executeSEMI.hpp"
+#include "ExecuteAND.hpp"
+#include "ExecuteOR.hpp"
+#include "ExecuteSEMI.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
+#include <string.h>
 #include <cstring>
+#include <stdlib.h>
 //#include "rShell.hpp"
 using namespace std;
 
-rShell* parse(string targetCommand);
-
-using namespace std;
-
-
-
-void print() {
-	cout << "$ " << endl;
-}
+rShell* parse(string targetCommand, vector<string> &quotedData);
+void print();
 
 int main() {
-	vector<string> parser;
-	string userCommand;
-	getline(cin, userCommand);
-	size_t found1 = userCommand.find(';');
-	size_t found2 = userCommand.find("&&");
-	size_t found3 = userCommand.find("||");
-	char c_userCommand[userCommand.length() + 1];
-        strcpy(c_userCommand, userCommand.c_str());
-        char* point;
-
-	if((found1 == string::npos && found2 == string::npos) && found3 == string::npos) {
-		//command does not have a connector
-                point = strtok(c_userCommand, " ");
-                while(point != NULL) {
-                        parser.push_back(string(point));
-                        point = strtok(NULL, " ");
-                }
-		Execute* execute = new Execute(parser);
-	}
-	if(found2 != string::npos) {
-		//char c_userCommand[userCommand.length() + 1];
-                //strcpy(c_userCommand, userCommand.c_str());
-                //char* point;
-                point = strtok(c_userCommand, "&&");
-                while(point != NULL) {
-                        parser.push_back(string(point));
-                        point = strtok(NULL, "&&");
-                }
-		string firstExec = parser.at(0);
-		string secExec = parser.at(1);
-		vector<string> leftExec;
-		vector<string> rightExec;
-		char c_firstExec[firstExec.length() + 1];
-        	strcpy(c_firstExec, firstExec.c_str());
-		point = strtok(firstExec, " ");
-		while(point != NULL) {
-			leftExec.push_back(string(point));
-			point = strtok(NULL, " ");
+	string userInput;
+	print();
+	getline(cin, userInput);
+	while(userInput != "exit") {
+		size_t foundComment = userInput.find('#');
+		if(foundComment != string::npos) {
+			userInput.erase(foundComment, userInput.size() - 1);
 		}
-		char c_secExec[secExec.length() + 1];
-                strcpy(c_secExec, secExec.c_str());
-                point = strtok(secExec, " ");
-                while(point != NULL) {
-                        rightExec.push_back(string(point));
-                        point = strtok(NULL, " ");
-                }
-		Execute* exec1 = new Execute(leftExec);
-		Execute* exec2 = new Execute(rightExec);
-		ExecuteAND* andExec = new ExecuteAND(leftExec, rightExec);
-	}
-	if(found != string::npos) {
-		//char c_userCommand[userCommand.length() + 1];
-		//strcpy(c_userCommand, userCommand.c_str());
-		//char* point;
-		point = strtok(c_userCommand, ";");
-		while(point != NULL) {
-			parser.push_back(string(point));
-			point = strtok(NULL, ";");
-		}
-		for(unsigned int i = 0; i < parser.size(); ++i) {
-			cout << parser.at(i) << endl;
+		if(userInput != "") {
+			string quotedString; //if command has a quoted string(s), temporarly stored here and then into vector
+			vector<string> quotedData;
+			string replaceString = "replaceString";
+			size_t found = userInput.find('"');
+			size_t foundQuote;
+			int firstIndex;
+			int secIndex;
+			while(found != string::npos) {
+				foundQuote = userInput.find_first_of('"');
+				firstIndex = foundQuote;
+				foundQuote = userInput.find_first_of('"', found + 1);
+				secIndex = foundQuote;
+				quotedString = userInput.substr(firstIndex, (secIndex - firstIndex) + 1);
+				userInput.replace(firstIndex, (secIndex - firstIndex) + 1, replaceString);
+				quotedData.push_back(quotedString);
+				found = userInput.find('"');
+			}
+			rShell* parentExecute = parse(userInput, quotedData);
+			parentExecute->execute();
+			print();
+ 	                getline(cin, userInput);
 		}
 	}
-	
+	exit(0);
 	return 0;
 }
 
+void print() { cout << "$ "; }
 
-rShell* parse(string targetCommand){
+rShell* parse(string userCommand, vector<string> &quotedData){
 	vector<string> parser;
-	size_t found1 = userCommand.find(';');
+	size_t found1 = userCommand.find(';'); //attempts to find any connectors
         size_t found2 = userCommand.find("&&");
         size_t found3 = userCommand.find("||");
-	char c_userCommand[userCommand.length() + 1];
+	char c_userCommand[userCommand.length() + 1];//have to convert string into array of chars to use strtokpoint = strtok(c_userCommand, "&&");
         strcpy(c_userCommand, userCommand.c_str());
         char* point;
 	if((found1 == string::npos && found2 == string::npos) && found3 == string::npos) {
-	//command does not have a connector
+		//command does not have a connector
+		//implement special case of quotes ""
 		point = strtok(c_userCommand, " ");
                 while(point != NULL) {
-                        parser.push_back(string(point));
-                        point = strtok(NULL, " ");
-                }
-                Execute* execute = new Execute(parser);
+                        if(string(point) != "replaceString") {
+				parser.push_back(string(point));
+               		}
+			else {
+				parser.push_back(quotedData.at(0));
+				quotedData.erase(quotedData.begin());
+			}
+			point = strtok(NULL, " ");
+		}
+                char* charArray[parser.size() + 1];
+		for(unsigned int i = 0; i < parser.size(); ++i){
+			char* temp = const_cast<char*>(parser.at(i).c_str());
+			charArray[i] = temp;
+		}
+		charArray[parser.size()] = NULL;
+		rShell* execute = new Execute(charArray);
 		return execute;
 	}
-	if(found2 != string::npos) {
+	else if(found1 != string::npos) {
+		point = strtok(c_userCommand, ";");
+                while(point != NULL) {
+                        parser.push_back(string(point));
+                        point = strtok(NULL, ";");
+                }
+                rShell* exec1 = parse(parser.at(0), quotedData);
+                rShell* exec2 = parse(parser.at(1), quotedData);
+                rShell* semiExec = new ExecuteSEMI(exec1, exec2);
+                return semiExec;
+	}
+	else if(found2 != string::npos) {
 		point = strtok(c_userCommand, "&&");
                 while(point != NULL) {
                         parser.push_back(string(point));
                         point = strtok(NULL, "&&");
                 }
-                string firstExec = parser.at(0);
-                string secExec = parser.at(1);
-                vector<string> leftExec;
-                vector<string> rightExec;
-                char c_firstExec[firstExec.length() + 1];
-                strcpy(c_firstExec, firstExec.c_str());
-                point = strtok(firstExec, " ");
-                while(point != NULL) {
-                        leftExec.push_back(string(point));
-                        point = strtok(NULL, " ");
-                }
-                char c_secExec[secExec.length() + 1];
-                strcpy(c_secExec, secExec.c_str());
-                point = strtok(secExec, " ");
-                while(point != NULL) {
-                        rightExec.push_back(string(point));
-                        point = strtok(NULL, " ");
-                }
-                Execute* exec1 = new Execute(leftExec);
-                Execute* exec2 = new Execute(rightExec);
-                ExecuteAND* andExec = new ExecuteAND(leftExec, rightExec);
+		rShell* exec1 = parse(parser.at(0), quotedData);
+		rShell* exec2 = parse(parser.at(1), quotedData);
+		rShell* andExec = new ExecuteAND(exec1, exec2);
+		return andExec;
 	}
+	else if(found3 != string::npos) {
+		point = strtok(c_userCommand, "||");
+                while(point != NULL) {
+                        parser.push_back(string(point));
+                        point = strtok(NULL, "||");
+                }
+                rShell* exec1 = parse(parser.at(0), quotedData);
+                rShell* exec2 = parse(parser.at(1), quotedData);
+                rShell* orExec = new ExecuteOR(exec1, exec2);
+                return orExec;
+	}
+}

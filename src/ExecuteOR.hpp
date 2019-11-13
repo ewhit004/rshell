@@ -2,19 +2,19 @@
 #define __EXECUTE_OR_HPP__
 #include "rShell.hpp"
 #include <vector>
-
+#include <stdlib.h>
 using namespace std;
 
-class ExecuteOR : rShell {
+class ExecuteOR : public rShell {
 	public:
 		ExecuteOR() : rShell() {}
-		ExecuteOR(rShell *left, rShell *right) : rShell() {L = left; R = right;}
-		void execute();
-		void exit();
+		ExecuteOR(rShell *left, rShell *right) : rShell() {this->left = left; this->right = right;}
+		bool execute();
+		void exitOut();
 
 	private:
-        	rShell *L;
-        	rShell *R;
+        	rShell *left;
+        	rShell *right;
 
 };
 
