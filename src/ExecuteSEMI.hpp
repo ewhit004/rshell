@@ -8,8 +8,8 @@ using namespace std;
 class ExecuteSEMI : public rShell {
 	public:
 		ExecuteSEMI() : rShell() {}
-		ExecuteSEMI(rShell *left, rShell *right) : rShell() {L = left; R = right;}
-		void execute;
+		ExecuteSEMI(rShell *left, rShell *right) : rShell() {this->left = left; this->right = right;}
+		bool execute();
 		void exit();
 
 	private: 

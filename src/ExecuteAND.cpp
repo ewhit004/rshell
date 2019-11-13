@@ -9,4 +9,4 @@ bool ExecuteAND::execute() {
        else { return false; }
 }
 
-void ExecuteAND::exit() { exit(0); }
+void ExecuteAND::exit() { exit(); }

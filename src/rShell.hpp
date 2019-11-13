@@ -5,8 +5,8 @@ using namespace std;
 
 class rShell {
 	public:
-		rShell();
-		virtual void execute(vector <Executable*> execs) = 0;
+		rShell(){};
+		virtual bool execute() = 0;
 		virtual void exit() = 0;
 };
 
