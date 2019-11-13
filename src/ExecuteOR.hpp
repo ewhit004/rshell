@@ -5,16 +5,16 @@
 
 using namespace std;
 
-class ExecuteOR : rShell {
+class ExecuteOR :public  rShell {
 	public:
 		ExecuteOR() : rShell() {}
-		ExecuteOR(rShell *left, rShell *right) : rShell() {L = left; R = right;}
-		void execute();
+		ExecuteOR(rShell *left, rShell *right) : rShell() {this->left = left; this->right = right;}
+		bool execute();
 		void exit();
 
 	private:
-        	rShell *L;
-        	rShell *R;
+        	rShell *left;
+        	rShell *right;
 
 };
 
