@@ -43,4 +43,4 @@ return result;
 
 //----------------------------------------------------------------------	
 
-void Execute::exit() { exit(0); }
+void Execute::exit() { exit(); }
