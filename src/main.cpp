@@ -16,31 +16,39 @@ rShell* parse(string targetCommand, vector<string> &quotedData);
 void print();
 
 int main() {
-	print();
 	string userInput;
+	print();
 	getline(cin, userInput);
-	if(userInput == "exit") {
-                exit(0);
-        }
-	string quotedString; //if command has a quoted string(s), temporarly stored here and then into vector
-	vector<string> quotedData;
-	string replaceString = "replaceString";
-	size_t found = userInput.find('"');
-	size_t foundQuote;
-	int firstIndex;
-	int secIndex;
-	while(found != string::npos) {
-		foundQuote = userInput.find_first_of('"');
-		firstIndex = foundQuote;
-		foundQuote = userInput.find_first_of('"', found + 1);
-		secIndex = foundQuote;
-		quotedString = userInput.substr(firstIndex, (secIndex - firstIndex) + 1);
-		userInput.replace(firstIndex, (secIndex - firstIndex) + 1, replaceString);
-		quotedData.push_back(quotedString);
-		found = userInput.find('"');
+	while(userInput != "exit") {
+		size_t foundComment = userInput.find('#');
+		if(foundComment != string::npos) {
+			userInput.erase(foundComment, userInput.size() - 1);
+		}
+		if(userInput != "") {
+			string quotedString; //if command has a quoted string(s), temporarly stored here and then into vector
+			vector<string> quotedData;
+			string replaceString = "replaceString";
+			size_t found = userInput.find('"');
+			size_t foundQuote;
+			int firstIndex;
+			int secIndex;
+			while(found != string::npos) {
+				foundQuote = userInput.find_first_of('"');
+				firstIndex = foundQuote;
+				foundQuote = userInput.find_first_of('"', found + 1);
+				secIndex = foundQuote;
+				quotedString = userInput.substr(firstIndex, (secIndex - firstIndex) + 1);
+				userInput.replace(firstIndex, (secIndex - firstIndex) + 1, replaceString);
+				quotedData.push_back(quotedString);
+				found = userInput.find('"');
+			}
+			rShell* parentExecute = parse(userInput, quotedData);
+			parentExecute->execute();
+			print();
+ 	                getline(cin, userInput);
+		}
 	}
-	rShell* parentExecute = parse(userInput, quotedData);
-	parentExecute->execute();
+	exit(0);
 	return 0;
 }
 
@@ -68,7 +76,13 @@ rShell* parse(string userCommand, vector<string> &quotedData){
 			}
 			point = strtok(NULL, " ");
 		}
-                rShell* execute = new Execute(parser);
+                char* charArray[parser.size() + 1];
+		for(unsigned int i = 0; i < parser.size(); ++i){
+			char* temp = const_cast<char*>(parser.at(i).c_str());
+			charArray[i] = temp;
+		}
+		charArray[parser.size()] = NULL;
+		rShell* execute = new Execute(charArray);
 		return execute;
 	}
 	else if(found1 != string::npos) {
@@ -105,10 +119,3 @@ rShell* parse(string userCommand, vector<string> &quotedData){
                 return orExec;
 	}
 }
-
-
-
-
-
-
-

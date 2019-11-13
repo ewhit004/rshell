@@ -3,13 +3,14 @@
 using namespace std;
 
 bool ExecuteOR::execute() {    
-    if (!(this->left->execute()))
-    {
-        if(this->right->execute()){ return true; }
+    if (!(this->left->execute())) {
+        if(this->right->execute()){ 
+		return true; 
+	}
     }
     else { return false; }
 }
 
 
-void ExecuteOR::exit() { exit(0); } 
+void ExecuteOR::exitOut() { exit(0); } 
 
