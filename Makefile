@@ -48,10 +48,10 @@ RM = /usr/bin/cmake3 -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /class/classes/jmari016/assignment-rshell
+CMAKE_SOURCE_DIR = /class/classes/ewhit004/assignments/assignment-rshell
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /class/classes/jmari016/assignment-rshell
+CMAKE_BINARY_DIR = /class/classes/ewhit004/assignments/assignment-rshell
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /class/classes/jmari016/assignment-rshell/CMakeFiles /class/classes/jmari016/assignment-rshell/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles /class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /class/classes/jmari016/assignment-rshell/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
