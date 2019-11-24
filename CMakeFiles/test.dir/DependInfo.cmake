@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/class/classes/jmari016/assignment-rshell/unit_tests/unitTest.cpp" "/class/classes/jmari016/assignment-rshell/CMakeFiles/test.dir/unit_tests/unitTest.cpp.o"
+  "/class/classes/ewhit004/assignments/assignment-rshell/unit_tests/unitTest.cpp" "/class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles/test.dir/unit_tests/unitTest.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -21,7 +21,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/class/classes/jmari016/assignment-rshell/googletest/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"
+  "/class/classes/ewhit004/assignments/assignment-rshell/googletest/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

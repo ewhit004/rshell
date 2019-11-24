@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/class/classes/jmari016/assignment-rshell/src/Execute.cpp" "/class/classes/jmari016/assignment-rshell/CMakeFiles/rshell.dir/src/Execute.cpp.o"
-  "/class/classes/jmari016/assignment-rshell/src/ExecuteAND.cpp" "/class/classes/jmari016/assignment-rshell/CMakeFiles/rshell.dir/src/ExecuteAND.cpp.o"
-  "/class/classes/jmari016/assignment-rshell/src/ExecuteOR.cpp" "/class/classes/jmari016/assignment-rshell/CMakeFiles/rshell.dir/src/ExecuteOR.cpp.o"
-  "/class/classes/jmari016/assignment-rshell/src/ExecuteSEMI.cpp" "/class/classes/jmari016/assignment-rshell/CMakeFiles/rshell.dir/src/ExecuteSEMI.cpp.o"
-  "/class/classes/jmari016/assignment-rshell/src/main.cpp" "/class/classes/jmari016/assignment-rshell/CMakeFiles/rshell.dir/src/main.cpp.o"
+  "/class/classes/ewhit004/assignments/assignment-rshell/src/Execute.cpp" "/class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles/rshell.dir/src/Execute.cpp.o"
+  "/class/classes/ewhit004/assignments/assignment-rshell/src/ExecuteAND.cpp" "/class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles/rshell.dir/src/ExecuteAND.cpp.o"
+  "/class/classes/ewhit004/assignments/assignment-rshell/src/ExecuteOR.cpp" "/class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles/rshell.dir/src/ExecuteOR.cpp.o"
+  "/class/classes/ewhit004/assignments/assignment-rshell/src/ExecuteSEMI.cpp" "/class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles/rshell.dir/src/ExecuteSEMI.cpp.o"
+  "/class/classes/ewhit004/assignments/assignment-rshell/src/main.cpp" "/class/classes/ewhit004/assignments/assignment-rshell/CMakeFiles/rshell.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
