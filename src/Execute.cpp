@@ -13,25 +13,26 @@
 #include "Execute.hpp"
 using namespace std;
 
-/*Execute::Execute(vector<string> execs) { 
-	this->execs = execs; 
-}
-*/
+/*Execute::Execute(char* argv[], int size) { 
+	for (unsigned int i = 0; i < size; ++i) {
+		this->argv[i] = argv[i];
+	}
+}*/
+
 //----------------------------------------------------------------------
 bool Execute::execute() {
-	bool result = true;
-	cout << sizeof(argv) << endl;	             //test to see if argv array is empty or not
-	for (int i = 0; i < sizeof(argv); ++i) {
-        	cout << argv[i] << endl;             //check to see what's inside of the array
-        }
+	char* argv[this->argvString.size() - 1];
+	for(unsigned int i = 0; i < this->argvString.size(); ++i) {
+		char* temp = const_cast<char*>(this->argvString.at(i).c_str());
+		argv[i] = temp;
+	}
 	pid_t pid = fork();
-	
 	if(pid < 0) {		//printing fork error
 		perror("Error upon creating fork");
 		return false;
 	}
 	else if(pid == 0) { 
-		execvp(this->argv[0], argv);
+		execvp(argv[0], argv);
 		return false;
 	}	
 	else{	//start parent process of fork
