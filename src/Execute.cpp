@@ -20,7 +20,10 @@ using namespace std;
 //----------------------------------------------------------------------
 bool Execute::execute() {
 	bool result = true;
-	
+	cout << sizeof(argv) << endl;	             //test to see if argv array is empty or not
+	for (int i = 0; i < sizeof(argv); ++i) {
+        	cout << argv[i] << endl;             //check to see what's inside of the array
+        }
 	pid_t pid = fork();
 	
 	if(pid < 0) {		//printing fork error
