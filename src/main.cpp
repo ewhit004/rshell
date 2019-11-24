@@ -16,9 +16,13 @@ rShell* parse(string targetCommand, vector<string> &quotedData);
 void print();
 
 int main() {
-	string userInput;
+	string userInput = "echo hello world";
+	bool temp;
 	print();
-	getline(cin, userInput);
+	vector<string>quotedData;
+	cout << userInput << endl;	
+
+	/*getline(cin, userInput);
 	while(userInput != "exit") {
 		size_t foundComment = userInput.find('#');
 		if(foundComment != string::npos) {
@@ -42,13 +46,22 @@ int main() {
 				quotedData.push_back(quotedString);
 				found = userInput.find('"');
 			}
+
+			*/
 			rShell* parentExecute = parse(userInput, quotedData);
-			parentExecute->execute();
+
+			if(parentExecute->execute()) {
+				cout << "Success" << endl;
+			}
+
+			else { 
+				cout << "try again, doofus" << endl;
+			}				
 			print();
- 	                getline(cin, userInput);
-		}
-	}
-	exit(0);
+ 	               /* getline(cin, userInput);
+
+		}*/
+	//exit(0);
 	return 0;
 }
 
@@ -76,12 +89,20 @@ rShell* parse(string userCommand, vector<string> &quotedData){
 			}
 			point = strtok(NULL, " ");
 		}
+		/*for(unsigned int i = 0; i < parser.size(); ++i){
+			cout << parser.at(i) << endl;
+		} */
                 char* charArray[parser.size() + 1];
 		for(unsigned int i = 0; i < parser.size(); ++i){
 			char* temp = const_cast<char*>(parser.at(i).c_str());
 			charArray[i] = temp;
 		}
 		charArray[parser.size()] = NULL;
+		
+		cout << sizeof(charArray) << endl;
+		/*for(unsigned int i = 0; i < sizeof(charArray); ++i){
+                        cout << charArray[i] << endl;
+                }*/
 		rShell* execute = new Execute(charArray);
 		return execute;
 	}
