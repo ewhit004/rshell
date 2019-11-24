@@ -21,11 +21,12 @@ using namespace std;
 
 //----------------------------------------------------------------------
 bool Execute::execute() {
-	char* argv[this->argvString.size() - 1];
+	char* argv[this->argvString.size() + 1];
 	for(unsigned int i = 0; i < this->argvString.size(); ++i) {
 		char* temp = const_cast<char*>(this->argvString.at(i).c_str());
 		argv[i] = temp;
 	}
+	argv[this->argvString.size()] = '\0';
 	pid_t pid = fork();
 	if(pid < 0) {		//printing fork error
 		perror("Error upon creating fork");
