@@ -9,7 +9,7 @@
 #include <string.h>
 #include <cstring>
 #include <stdlib.h>
-//#include "rShell.hpp"
+
 using namespace std;
 
 rShell* parse(string targetCommand, vector<string> &quotedData);
@@ -55,7 +55,7 @@ int main() {
 void print() { cout << "$ "; }
 
 rShell* parse(string userCommand, vector<string> &quotedData){
-	//vector<string> parser;
+	vector<string> parser;
 	size_t found1 = userCommand.find(';'); //attempts to find any connectors
         size_t found2 = userCommand.find("&&");
         size_t found3 = userCommand.find("||");
@@ -84,13 +84,7 @@ rShell* parse(string userCommand, vector<string> &quotedData){
 			}
 			point = strtok(NULL, " ");
 		}
-                char* charArray[parser.size() + 1];
-		for(unsigned int i = 0; i < parser.size(); ++i){
-			char* temp = const_cast<char*>(parser.at(i).c_str());
-			charArray[i] = temp;
-		}
-		charArray[parser.size()] = NULL;
-		rShell* execute = new Execute(charArray);
+		rShell* execute = new Execute(parser);
 		return execute;
 	}
 	else if(found1 != string::npos) {
