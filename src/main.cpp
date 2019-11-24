@@ -12,16 +12,13 @@
 
 using namespace std;
 
-rShell* parse(string targetCommand, vector<string> &quotedData);
+rShell* parse(string targetCommand, vector<string> &quotedData, vector<string> &parenthesisData);
 void print();
 
 int main() {
 	string userInput;
 	bool temp;
 	print();
-	//vector<string>quotedData;
-//	cout << userInput << endl;	
-
 	getline(cin, userInput);
 	while(userInput != "exit") {
 		size_t foundComment = userInput.find('#');
@@ -59,7 +56,7 @@ int main() {
 
 void print() { cout << "$ "; }
 
-rShell* parse(string userCommand, vector<string> &quotedData){
+rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &parenthesisData){
 	vector<string> parser;
 	size_t found1 = userCommand.find(';'); //attempts to find any connectors
         size_t found2 = userCommand.find("&&");
