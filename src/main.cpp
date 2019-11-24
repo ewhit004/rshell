@@ -16,13 +16,13 @@ rShell* parse(string targetCommand, vector<string> &quotedData);
 void print();
 
 int main() {
-	string userInput = "echo hello world";
+	string userInput;
 	bool temp;
 	print();
-	vector<string>quotedData;
-	cout << userInput << endl;	
+	//vector<string>quotedData;
+//	cout << userInput << endl;	
 
-	/*getline(cin, userInput);
+	getline(cin, userInput);
 	while(userInput != "exit") {
 		size_t foundComment = userInput.find('#');
 		if(foundComment != string::npos) {
@@ -46,22 +46,14 @@ int main() {
 				quotedData.push_back(quotedString);
 				found = userInput.find('"');
 			}
-
-			*/
-			rShell* parentExecute = parse(userInput, quotedData);
-
-			if(parentExecute->execute()) {
-				cout << "Success" << endl;
-			}
-
-			else { 
-				cout << "try again, doofus" << endl;
-			}				
+			rShell* parentExecute = parse(userInput, quotedData);				
+			parentExecute->execute();
 			print();
- 	               /* getline(cin, userInput);
+ 	                getline(cin, userInput);
 
-		}*/
-	//exit(0);
+		}
+	}
+	exit(0);
 	return 0;
 }
 
