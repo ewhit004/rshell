@@ -1,7 +1,9 @@
 echo hello world
 whatis echo
 mkdir intro
-ls -a
+ls
+cd src
+vim src/main.cpp
+cmake3 .
 test -e rshell
-test -d unit_tests
 exit
