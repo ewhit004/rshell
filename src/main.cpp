@@ -26,25 +26,41 @@ int main() {
 			userInput.erase(foundComment, userInput.size() - 1);
 		}
 		if(userInput != "") {
-			string quotedString; //if command has a quoted string(s), temporarly stored here and then into vector
+			string targetString; //if command has a quoted string(s), temporarly stored here and then into vector
 			vector<string> quotedData;
-			string replaceString = "replaceString";
+			vector<string> parenthesisData;
 			size_t found = userInput.find('"');
-			size_t foundQuote;
 			int firstIndex;
 			int secIndex;
 			while(found != string::npos) {
-				foundQuote = userInput.find_first_of('"');
-				firstIndex = foundQuote;
-				foundQuote = userInput.find_first_of('"', found + 1);
-				secIndex = foundQuote;
-				quotedString = userInput.substr(firstIndex, (secIndex - firstIndex) + 1);
-				userInput.replace(firstIndex, (secIndex - firstIndex) + 1, replaceString);
-				quotedData.push_back(quotedString);
+				firstIndex = userInput.find_first_of('"');
+				secIndex = userInput.find_first_of('"', found + 1);
+				targetString = userInput.substr(firstIndex, (secIndex - firstIndex) + 1);
+				userInput.replace(firstIndex, (secIndex - firstIndex) + 1, "quoteString");
+				quotedData.push_back(targetString);
 				found = userInput.find('"');
 			}
-			rShell* parentExecute = parse(userInput, quotedData);				
-			parentExecute->execute();
+			found = userInput.find('(');//looks for parenthesis in the userInput
+			while (found != string::npos) {
+				firstIndex = userInput.find_first_of('(');
+				secIndex = userInput.find_first_of(')');
+				targetString = userInput.substr(firstIndex, (secIndex - firstIndex) + 1);
+				userInput.replace(firstIndex, (secIndex - firstIndex) + 1, "parenthesisString");
+				parenthesisData.push_back(targetString);
+				found = userInput.find('(');
+			}
+			found = userInput.find('['); //looks for any bracket test commands in userinput and replaces them with just "test"
+			while (found != string::npos) {
+				firstIndex = userInput.find_first_of('[');
+				userInput.replace(firstIndex, 1, "test");
+				secIndex = userInput.find_first_of(']');
+				userInput.erase(secIndex, 1);
+				found = userInput.find('[');
+			}
+
+			//cout << "userInput before parse: " << userInput << endl;
+			rShell* parentExecute = parse(userInput, quotedData, parenthesisData);				
+			cout << parentExecute->execute() << endl;
 			print();
  	                getline(cin, userInput);
 
@@ -77,12 +93,20 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
 
 		point = strtok(c_userCommand, " ");
                 while(point != NULL) {
-                        if(string(point) != "replaceString") {
-				parser.push_back(string(point));
+                        if(string(point) == "quoteString") {
+				string temp = quotedData.at(0);
+                                temp = temp.substr(1, temp.size() - 2);
+                                parser.push_back(temp);
+                                quotedData.erase(quotedData.begin());
                		}
+			else if (string(point) == "parenthesisString") {
+				string temp = parenthesisData.at(0);
+				temp = temp.substr(1, temp.size() - 2); //deletes the parenthesis from the sentence
+				parenthesisData.erase(parenthesisData.begin());
+				return parse(temp, quotedData, parenthesisData);
+			}
 			else {
-				parser.push_back(quotedData.at(0));
-				quotedData.erase(quotedData.begin());
+				parser.push_back(string(point));
 			}
 			point = strtok(NULL, " ");
 		}
@@ -98,8 +122,8 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
 		*/
 		leftParse = userCommand.substr(0, found1);
 		rightParse = userCommand.substr(found1 + 1, userCommand.size() - 1);
-                rShell* exec1 = parse(leftParse, quotedData);
-                rShell* exec2 = parse(rightParse, quotedData);
+                rShell* exec1 = parse(leftParse, quotedData, parenthesisData);
+                rShell* exec2 = parse(rightParse, quotedData, parenthesisData);
                 rShell* semiExec = new ExecuteSEMI(exec1, exec2);
                 return semiExec;
 	}
@@ -111,8 +135,8 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
                 }*/
 		leftParse = userCommand.substr(0, found2);
                 rightParse = userCommand.substr(found2 + 1, userCommand.size() - 1);
-		rShell* exec1 = parse(leftParse, quotedData);
-		rShell* exec2 = parse(rightParse, quotedData);
+		rShell* exec1 = parse(leftParse, quotedData, parenthesisData);
+		rShell* exec2 = parse(rightParse, quotedData, parenthesisData);
 		rShell* andExec = new ExecuteAND(exec1, exec2);
 		return andExec;
 	}
@@ -124,8 +148,8 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
                 }*/
 		leftParse = userCommand.substr(0, found3);
                 rightParse = userCommand.substr(found3 + 1, userCommand.size() - 1);
-                rShell* exec1 = parse(leftParse, quotedData);
-                rShell* exec2 = parse(rightParse, quotedData);
+                rShell* exec1 = parse(leftParse, quotedData, parenthesisData);
+                rShell* exec2 = parse(rightParse, quotedData, parenthesisData);
                 rShell* orExec = new ExecuteOR(exec1, exec2);
                 return orExec;
 	}
