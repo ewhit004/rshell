@@ -25,7 +25,7 @@ TEST(ExecuteTest, ExecuteEch) {  //test that SHOULD fail; improper testing of "e
 }
 
 TEST(ExecuteTest, ExecuteGit) {
-	vector<string> str4 = {"git", "status"}
+	vector<string> str4 = {"git", "status"};
 	Execute* execGit = new Execute(str4);
 	EXPECT_EQ(execGit->execute(), true);
 }
