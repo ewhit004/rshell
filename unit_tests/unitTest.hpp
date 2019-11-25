@@ -12,4 +12,13 @@ TEST(ExecuteTest, ExecuteExit) {
 	EXPECT_EQ(exec->execute(), true);
 }
 
+TEST(ExecuteTest, ExecuteEcho) {
+	char* arr[] = {"echo", NULL};
+	Execute* execEcho = new Execute(arr);
+	EXPECT_EQ(execEcho->execute(), true);
+}
+
+TEST(ExecuteTest, Execute) {
+}
+
 #endif
