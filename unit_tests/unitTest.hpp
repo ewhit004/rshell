@@ -13,8 +13,8 @@ TEST(ExecuteTest, ExecuteExit) {
 }
 
 TEST(ExecuteTest, ExecuteEcho) {
-	char* arr[] = {"echo", NULL};
-	Execute* execEcho = new Execute(arr);
+	vector<string> str = {"echo", NULL};
+	Execute* execEcho = new Execute(str);
 	EXPECT_EQ(execEcho->execute(), true);
 }
 
