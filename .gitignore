@@ -2,6 +2,23 @@ CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 Makefile
+MakeFiles/CMakeDirectoryInformation.cmake
+CMakeFiles/Makefile2
+CMakeFiles/TargetDirectories.txt
+CMakeFiles/TargetDirectories.txt
+CMakeFiles/rshell.dir/DependInfo.cmake
+CMakeFiles/rshell.dir/build.make
+CMakeFiles/rshell.dir/src/Execute.cpp.o
+CMakeFiles/rshell.dir/src/ExecuteAND.cpp.o
+CMakeFiles/rshell.dir/src/main.cpp.o
+CMakeFiles/test.dir/CXX.includecache
+CMakeFiles/test.dir/DependInfo.cmake
+CMakeFiles/test.dir/build.make
+CMakeFiles/test.dir/depend.internal
+CMakeFiles/test.dir/depend.make
+CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/unit_tests/unitTest.cpp.o
+googletest
 
 rshell
 test
