@@ -4,10 +4,8 @@
 using namespace std;
 
 bool ExecuteAND::execute() {
-   if (this->left->execute()){
-       if(this->right->execute()){ 
-		return true; 
-       } 
+   if(this->left->execute()){
+	return this->right->execute();
    }
    return false; 
 }
