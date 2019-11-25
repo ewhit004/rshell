@@ -60,7 +60,7 @@ int main() {
 
 			//cout << "userInput before parse: " << userInput << endl;
 			rShell* parentExecute = parse(userInput, quotedData, parenthesisData);				
-			cout << parentExecute->execute() << endl;
+			parentExecute->execute();
 			print();
  	                getline(cin, userInput);
 
@@ -134,7 +134,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
                         point = strtok(NULL, "&&");
                 }*/
 		leftParse = userCommand.substr(0, found2);
-                rightParse = userCommand.substr(found2 + 1, userCommand.size() - 1);
+                rightParse = userCommand.substr(found2 + 2, userCommand.size() - 1);
 		rShell* exec1 = parse(leftParse, quotedData, parenthesisData);
 		rShell* exec2 = parse(rightParse, quotedData, parenthesisData);
 		rShell* andExec = new ExecuteAND(exec1, exec2);
@@ -147,7 +147,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
                         point = strtok(NULL, "||");
                 }*/
 		leftParse = userCommand.substr(0, found3);
-                rightParse = userCommand.substr(found3 + 1, userCommand.size() - 1);
+                rightParse = userCommand.substr(found3 + 2, userCommand.size() - 1);
                 rShell* exec1 = parse(leftParse, quotedData, parenthesisData);
                 rShell* exec2 = parse(rightParse, quotedData, parenthesisData);
                 rShell* orExec = new ExecuteOR(exec1, exec2);

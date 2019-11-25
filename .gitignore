@@ -1,1 +1,7 @@
-“rshell”
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+rshell
+test
