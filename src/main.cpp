@@ -10,6 +10,7 @@
 #include <cstring>
 #include <stdlib.h>
 
+
 using namespace std;
 
 rShell* parse(string targetCommand, vector<string> &quotedData, vector<string> &parenthesisData);
@@ -26,7 +27,11 @@ int main() {
 			userInput.erase(foundComment, userInput.size() - 1);
 		}
 		if(userInput != "") {
+<<<<<<< HEAD
+			string quotedString; 				//if command has a quoted string(s), temporarly stored here and then into vector
+=======
 			string targetString; //if command has a quoted string(s), temporarly stored here and then into vector
+>>>>>>> master
 			vector<string> quotedData;
 			vector<string> parenthesisData;
 			size_t found = userInput.find('"');
@@ -74,9 +79,9 @@ void print() { cout << "$ "; }
 
 rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &parenthesisData){
 	vector<string> parser;
-	size_t found1 = userCommand.find(';'); //attempts to find any connectors
-        size_t found2 = userCommand.find("&&");
-        size_t found3 = userCommand.find("||");
+	size_t found1 = userCommand.find(';'); 	  //attempts to find any ; connectors in parsed content
+        size_t found2 = userCommand.find("&&");	  //attempts to find any && connectors in parsed content 
+        size_t found3 = userCommand.find("||");	  //attempts to find any || connectors in parsed content
 	
 	/*char c_userCommand[userCommand.length() + 1];//have to convert string into array of chars to use strtokpoint = strtok(c_userCommand, "&&");
         strcpy(c_userCommand, userCommand.c_str());
@@ -84,6 +89,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
 
 	string leftParse;
 	string rightParse;
+
 	if((found1 == string::npos && found2 == string::npos) && found3 == string::npos) {
 		//command does not have a connector
 		vector<string> parser;
@@ -113,6 +119,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
 		rShell* execute = new Execute(parser);
 		return execute;
 	}
+
 	else if(found1 != string::npos) {
 		/*point = strtok(c_userCommand, ";");
                 while(point != NULL) {
@@ -127,6 +134,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
                 rShell* semiExec = new ExecuteSEMI(exec1, exec2);
                 return semiExec;
 	}
+
 	else if(found2 != string::npos) {
 		/*point = strtok(c_userCommand, "&&");
                 while(point != NULL) {
@@ -140,6 +148,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
 		rShell* andExec = new ExecuteAND(exec1, exec2);
 		return andExec;
 	}
+
 	else if(found3 != string::npos) {
 		/*point = strtok(c_userCommand, "||");
                 while(point != NULL) {
