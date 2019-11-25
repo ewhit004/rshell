@@ -11,9 +11,13 @@ rShell.hpp
 /class/classes/jmari016/assignment-rshell/src/rShell.hpp
 string
 -
+vector
+-
 string.h
 -
 stdlib.h
+-
+iostream
 -
 
 /class/classes/jmari016/assignment-rshell/src/ExecuteAND.hpp
