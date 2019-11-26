@@ -6,19 +6,46 @@
 #include "../src/ExecuteOR.hpp"
 #include "../src/ExecuteSEMI.hpp"
 
-TEST(ExecuteTest, ExecuteExit) {
-	//char* arr[] = {"ls", "-a"};
-	//Execute* exec = new Execute(arr, 2);
-	//EXPECT_EQ(exec->execute(), true);
+TEST(ExecuteTest, ExecuteLS) {
+	vector<string> str1 = {"ls", "-a"};
+	Execute* exec = new Execute(str1);
+	EXPECT_EQ(exec->execute(), true);
 }
 
 TEST(ExecuteTest, ExecuteEcho) {
-	vector<string> str = {"echo", NULL};
-	Execute* execEcho = new Execute(str);
+	vector<string> str2 = {"echo", "hello world"};
+	Execute* execEcho = new Execute(str2);
 	EXPECT_EQ(execEcho->execute(), true);
 }
 
-TEST(ExecuteTest, Execute) {
+TEST(ExecuteTest, ExecuteEch) {  //test that SHOULD fail; improper testing of "echo"
+	vector<string> str3 = {"ech", "hello world"};
+	Execute* execEch = new Execute(str3);
+	EXPECT_EQ(execEch->execute(), false);
 }
+
+TEST(ExecuteTest, ExecuteGit) {
+	vector<string> str4 = {"git", "status"};
+	Execute* execGit = new Execute(str4);
+	EXPECT_EQ(execGit->execute(), true);
+}
+
+/*TEST(ExecuteTest, ExecuteConAnd) {
+	vector<string> str5 = //create left execute and right execute and perculate down
+	Execute* execConAnd = new Execute(str5);
+	EXPECT_EQ(execConAnd->execute(), true);
+}
+
+TEST(ExecuteTest, ExecuteConOr) {
+	vector<string> str6 = //create left execute and right execute and perculate down
+	Execute* execConOr = new Execute(str6);
+	EXPECT_EQ(execConOr->execute(), true);
+}
+
+TEST(ExecuteTest, ExecuteConSemi) {
+        vector<string> str7 = //create left execute and right execute and perculate down
+        Execute* execConSemi = new Execute(str7);
+        EXPECT_EQ(execConSemi->execute(), true);
+}*/
 
 #endif

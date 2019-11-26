@@ -27,7 +27,7 @@ int main() {
 			userInput.erase(foundComment, userInput.size() - 1);
 		}
 		if(userInput != "") {
-			string targetString; //if command has a quoted string(s), temporarly stored here and then into vectr
+			string targetString; //if command has a quoted string(s), temporarly stored here and then into vector
 			vector<string> quotedData;
 			vector<string> parenthesisData;
 			size_t found = userInput.find('"');
