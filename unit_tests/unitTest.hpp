@@ -30,7 +30,7 @@ TEST(ExecuteTest, ExecuteGit) {
 	EXPECT_EQ(execGit->execute(), true);
 }
 
-TEST(ExecuteTest, ExecuteConAnd) {
+/*TEST(ExecuteTest, ExecuteConAnd) {
 	vector<string> str5 = //create left execute and right execute and perculate down
 	Execute* execConAnd = new Execute(str5);
 	EXPECT_EQ(execConAnd->execute(), true);
@@ -41,4 +41,11 @@ TEST(ExecuteTest, ExecuteConOr) {
 	Execute* execConOr = new Execute(str6);
 	EXPECT_EQ(execConOr->execute(), true);
 }
+
+TEST(ExecuteTest, ExecuteConSemi) {
+        vector<string> str7 = //create left execute and right execute and perculate down
+        Execute* execConSemi = new Execute(str7);
+        EXPECT_EQ(execConSemi->execute(), true);
+}*/
+
 #endif
