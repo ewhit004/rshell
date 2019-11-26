@@ -63,15 +63,16 @@ bool Execute::execute() {
 	}
 	else if(pid == 0) { 
 		execvp(argv[0], argv);
-		exit(0);
-		cout << "should not see this" << endl;
+		exit(errno);
+		
 	}	
 	else{	//start parent process of fork
-	/*	int status;
-		if(waitpid(pid, &status, 0) < 0) { perror("waitpid"); }    //execute
-		if(WEXITSTATUS(status) != 0) { result = false; }           //checks if child process has finished; if not, return false
-	*/
-		waitpid(pid, NULL, 0);
+		int status;
+		wait(&status);
+		if(status > 0) {
+			return false;
+		}
+		//waitpid(pid, NULL, 0);
 		//cout << "Parent process finished successful" << endl;
 		return true;
 	}	
