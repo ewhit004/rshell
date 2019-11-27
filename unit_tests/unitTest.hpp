@@ -30,13 +30,21 @@ TEST(ExecuteTest, ExecuteGit) {
 	EXPECT_EQ(execGit->execute(), true);
 }
 
-/*TEST(ExecuteTest, ExecuteConAnd) {
-	vector<string> str5 = //create left execute and right execute and perculate down
+TEST(ExecuteTest, ExecuteConAnd) {
+	vector<string> str5;
+	str5.push_back("echo hello");
+	str5.pushi_back("&&");
+	str5.push_back("echo world");
 	Execute* execConAnd = new Execute(str5);
+	Exectute* 
 	EXPECT_EQ(execConAnd->execute(), true);
 }
 
 TEST(ExecuteTest, ExecuteConOr) {
+	vector<string> str6;
+        str5.push_back("echo hello");
+        str5.pushi_back("&&");
+        str5.push_back("echo world");
 	vector<string> str6 = //create left execute and right execute and perculate down
 	Execute* execConOr = new Execute(str6);
 	EXPECT_EQ(execConOr->execute(), true);
@@ -44,6 +52,9 @@ TEST(ExecuteTest, ExecuteConOr) {
 
 TEST(ExecuteTest, ExecuteConSemi) {
         vector<string> str7 = //create left execute and right execute and perculate down
+        str5.push_back("echo hello");
+        str5.pushi_back("&&");
+        str5.push_back("echo world");
         Execute* execConSemi = new Execute(str7);
         EXPECT_EQ(execConSemi->execute(), true);
 }*/
