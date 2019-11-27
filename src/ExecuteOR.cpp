@@ -4,11 +4,9 @@ using namespace std;
 
 bool ExecuteOR::execute() {    
     if (!(this->left->execute())) {
-        if(this->right->execute()){ 
-		return true; 
-	}
+        return this->right->execute();
     }
-    else { return false; }
+    else { return true; }
 }
 
 

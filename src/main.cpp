@@ -61,7 +61,9 @@ int main() {
 
 			//cout << "userInput before parse: " << userInput << endl;
 			rShell* parentExecute = parse(userInput, quotedData, parenthesisData);				
-			parentExecute->execute();
+			if(!parentExecute->execute()) {
+				cout << "Execution failed" << endl;
+			}
 			print();
  	                getline(cin, userInput);
 
