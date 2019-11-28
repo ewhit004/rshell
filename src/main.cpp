@@ -9,16 +9,20 @@
 #include <string.h>
 #include <cstring>
 #include <stdlib.h>
-
-
+#include <iterator> 
+#include <map>
+#include <stdio.h>
 using namespace std;
 
 rShell* parse(string targetCommand, vector<string> &quotedData, vector<string> &parenthesisData);
 void print();
+string extractParenthesis(string userInput, vector<string> &parenthesisData);
 
 int main() {
 	string userInput;
 	bool temp;
+	//map<int, string> parenthesisMap
+	restart:
 	print();
 	getline(cin, userInput);
 	while(userInput != "exit") {
@@ -42,13 +46,28 @@ int main() {
 				found = userInput.find('"');
 			}
 			found = userInput.find('(');//looks for parenthesis in the userInput
-			while (found != string::npos) {
-				firstIndex = userInput.find_first_of('(');
-				secIndex = userInput.find_first_of(')');
-				targetString = userInput.substr(firstIndex, (secIndex - firstIndex) + 1);
-				userInput.replace(firstIndex, (secIndex - firstIndex) + 1, "parenthesisString");
-				parenthesisData.push_back(targetString);
-				found = userInput.find('(');
+			if (found != string::npos) {
+				int x = 0;
+				int y = 0;
+				for (size_t found = userInput.find_first_of('('); found != string::npos; found = userInput.find_first_of('(', found + 1)) {
+					++x;
+				}
+				for (size_t found = userInput.find_first_of(')'); found != string::npos; found = userInput.find_first_of(')', found + 1)) {
+                                        ++y;
+                                }
+				if (x != y) {
+					cout << "Invalid Input" << endl;
+					goto restart;
+				}
+				while (found != string::npos) {
+					firstIndex = userInput.find_first_of('(');
+					secIndex = userInput.find_first_of(')');
+					targetString = userInput.substr(firstIndex, (secIndex - firstIndex) + 1);
+					userInput.replace(firstIndex, (secIndex - firstIndex) + 1, "parenthesisString");
+					parenthesisData.push_back(targetString);
+					//userInput = extractParenthesis(userInput, parenthesisData);
+					found = userInput.find('(');
+				}
 			}
 			found = userInput.find('['); //looks for any bracket test commands in userinput and replaces them with just "test"
 			while (found != string::npos) {
@@ -104,9 +123,9 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
                                 quotedData.erase(quotedData.begin());
                		}
 			else if (string(point) == "parenthesisString") {
-				string temp = parenthesisData.at(0);
+				string temp = parenthesisData.back();
 				temp = temp.substr(1, temp.size() - 2); //deletes the parenthesis from the sentence
-				parenthesisData.erase(parenthesisData.begin());
+				parenthesisData.erase(parenthesisData.back());
 				return parse(temp, quotedData, parenthesisData);
 			}
 			else {
@@ -161,3 +180,53 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
                 return orExec;
 	}
 }
+
+/*string extractParenthesis(string userInput, vector<string> &parenthesisData) {
+	int firstIndex = userInput.find_first_of('(');
+	int secIndex = userInput.find_first_of(')');
+	if (firstIndex == string::npos && secIndex == string::npos) {
+		parenthesisData.push_back(userInput);
+		return userInput.replace(0, userInput.size(), "parenthesisString");
+	}
+	size_t found = userInput.find_first_of('(', firstIndex + 1);
+	string temp;
+	while (found != string::npos) {
+		secIndex = userInput.find_first_of(')', secIndex + 1);
+		found = userInput.find_first_of('(', found + 1);
+	}
+	temp = userInput.substr(firstIndex + 1, (secIndex - firstIndex) - 1);
+	temp = extractParenthesis(temp);
+	if(temp == "parenthesisString") {
+		userInput.replace(firstIndex, (secIndex - firstIndex) + 1, temp);
+		return userInput;
+	}
+	userInput.replace(firstIndex, (secIndex - firstIndex) + 1, extractParenthesis(temp));
+	return userInput;
+}*/
+
+/*string extractParenthesis(string userInput, vector<string> &parenthesisData) {
+	int firstIndex = userInput.find_first_of('(');
+	int secIndex = userInput.find_first_of(')');
+	if (firstIndex == string::npos && secIndex == string::npos) {
+		//push back 
+		parenthesisData.push_back(userInput);
+		return userInput.replace(0, userInput.size(), "parenthesisString");
+	}
+	size_t found = userInput.find_first_of('(', firstIndex + 1);
+	string temp;
+	while (found != string::npos) {
+		if (found > secIndex) {
+			break;
+		}
+		secIndex = userInput.find_first_of(')', secIndex + 1);
+		found = userInput.find_first_of('(', found + 1);
+	}
+	temp = userInput.substr(firstIndex + 1, (secIndex - firstIndex) - 1);
+	temp = extractParenthesis(temp, parenthesisData);
+	if (temp == "parenthesisString") {
+		userInput.replace(firstIndex, (secIndex - firstIndex) + 1, temp);
+		return userInput;
+	}
+	userInput.replace(firstIndex, (secIndex - firstIndex) + 1, extractParenthesis(temp, parenthesisData));
+	return userInput;
+}*/
