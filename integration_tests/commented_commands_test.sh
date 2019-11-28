@@ -1,4 +1,4 @@
 #!/bin/bash
-../rshell < commented_commands
+../rshell < commented_commands.sh
 
 

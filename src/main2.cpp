@@ -125,7 +125,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, vector<string> &pa
 			else if (string(point) == "parenthesisString") {
 				string temp = parenthesisData.back();
 				temp = temp.substr(1, temp.size() - 2); //deletes the parenthesis from the sentence
-				parenthesisData.erase(parenthesisData.end());
+				parenthesisData.erase(parenthesisData.back());
 				return parse(temp, quotedData, parenthesisData);
 			}
 			else {
