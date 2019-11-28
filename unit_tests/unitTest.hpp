@@ -90,7 +90,23 @@ TEST(ExecuteCmdTest, ExecuteTest) {
         EXPECT_EQ(execTest->execute(), true);
 }
 
-TEST(ExecuteTest, ParserTest) {
+TEST(ExecParseTest, ParserTest1) {
+        vector<string> executeMultConnectors1;
+        vector<string> executeMultConnectors2;
+        vector<string> executeMultConnectors3;
+        vector<string> executeMultConnectors4;
+        executeMultConnectors1.push_back("test");
+        executeMultConnectors1.push_back("-d");
+        executeMultConnectors1.push_back("src");
+        executeMultConnectors2.push_back("echo");
+        executeMultConnectors2.push_back("“unit_tests/ directory missing, check submission instruction section of the specifications");
+        Execute* execPrsTest1 = new Execute(executeMultConnectors1);
+        Execute* execPrsTest2 = new Execute(executeMultConnectors2);
+        ExecuteOR* execParseTest3 = new ExecuteOR(execPrsTest1, execPrsTest2);
+        EXPECT_EQ(execParseTest3->execute(), true);
+}
+
+TEST(ExecParseTest, ParserTest2) {
         vector<string> executeMultConnectors1;
 	vector<string> executeMultConnectors2;
 	vector<string> executeMultConnectors3;
@@ -112,6 +128,5 @@ TEST(ExecuteTest, ParserTest) {
 	ExecuteOR* execParseTest3 = new ExecuteOR(execParseTest1, execParseTest2);
 	EXPECT_EQ(execParseTest3->execute(), true);
 }
-
 
 #endif
