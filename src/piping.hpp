@@ -15,7 +15,7 @@ class Piping : public rShell {
     public:
     	Piping() : public rShell() {}
     	Piping(rShell *left, rShell *right) : public rShell() {this->left = left; this->right = right;}
-
+	bool execute();
     	bool execute(int in, int out);
 
     private:

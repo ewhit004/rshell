@@ -73,6 +73,19 @@ int main() {
 					found = userInput.find('(');
 				}
 			}
+			found = userInput.find('|'); //Looks for any pipes but doesn't parse, encases everything to the left in parenthesis for correct tree build
+			while (found != string::npos) {
+				if (userInput[found + 1] != '|') {
+					userInput.insert(0, "(");
+    					userInput.insert(found, ")");
+					found = userInput.find('|', found + 2);
+				}
+			}
+			found = userInput.find('(');
+			while (found != string::npos) {
+       	                        userInput = extractParenthesis(userInput, key, parenthesisMap);
+                                found = userInput.find('(');
+                        }
 			//cout << "userInput before parse: " << userInput << endl;
 			rShell* parentExecute = parse(userInput, quotedData, parenthesisMap);				
 			if(!parentExecute->execute()) {
@@ -95,7 +108,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 	size_t found1 = userCommand.find(';'); 	  //attempts to find any ; connectors in parsed content
         size_t found2 = userCommand.find("&&");	  //attempts to find any && connectors in parsed content 
         size_t found3 = userCommand.find("||");	  //attempts to find any || connectors in parsed content
-	
+	//size_t found4 = userCommand.find('|');   //attempts to find any | connectors in parsed content
 	string leftParse;
 	string rightParse;
 
@@ -130,8 +143,8 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 		rShell* execute = new Execute(parser);
 		return execute;
 	}
-
-	else if(found1 != string::npos) {
+	pipeParse:
+	if(found1 != string::npos) {
 		leftParse = userCommand.substr(0, found1);
 		rightParse = userCommand.substr(found1 + 1, userCommand.size() - 1);
                 rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
@@ -150,12 +163,27 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 	}
 
 	else if(found3 != string::npos) {
-		leftParse = userCommand.substr(0, found3);
-                rightParse = userCommand.substr(found3 + 2, userCommand.size() - 1);
-                rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
+		if (userCommand[found3 + 1] == '|') {
+			leftParse = userCommand.substr(0, found3);
+	                rightParse = userCommand.substr(found3 + 2, userCommand.size() - 1);
+	                rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
+	                rShell* exec2 = parse(rightParse, quotedData, parenthesisMap);
+	                rShell* orExec = new ExecuteOR(exec1, exec2);
+	                return orExec;
+		}
+		int pipeIndex = found3;
+		found1 = userCommand.find(';', found3 + 1);
+        	found2 = userCommand.find("&&", found3 + 1);
+        	found3 = userCommand.find("||", found3 + 1);
+		if ((found1 != string::npos || found2 != string::npos) || found3 != string::npos) {
+			goto pipeParse;
+		}
+		leftParse = userCommand.substr(0, pipeIndex);
+                rightParse = userCommand.substr(pipeIndex + 1, userCommand.size() - 1);
+       	        rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
                 rShell* exec2 = parse(rightParse, quotedData, parenthesisMap);
-                rShell* orExec = new ExecuteOR(exec1, exec2);
-                return orExec;
+                rShell* pipeExec = new piping(exec1, exec2);
+                return pipeExec;
 	}
 }
 
