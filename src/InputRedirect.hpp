@@ -1,14 +1,14 @@
 #ifndef __INPUTREDIRECT_HPP__
 #define __INPUTREDIRECT_HPP__
 
-#include "Execute.hpp"
+#include "rShell.hpp"
 #include "Execute.cpp"
 
-class InputRedirect : public Connector {
+class InputRedirect : public rShell {
   public:
   InputRedirect(Base* rhs, Base* lhs);
   InputRedirect();
-  virtual bool execute(int in, int out);
+  virtual bool execute(int input, int output);
 
 };
 
