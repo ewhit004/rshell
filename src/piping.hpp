@@ -16,12 +16,11 @@ class Piping : public rShell {
     	Piping() : public rShell() {}
     	Piping(rShell *left, rShell *right) : public rShell() {this->left = left; this->right = right;}
 	bool execute();
-    	bool execute(int in, int out);
+    	virtual bool execute(int input, int output);
 
     private:
 	rShell *left;
 	rShell *right;
-
 };
 
 #endif
