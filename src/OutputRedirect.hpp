@@ -2,14 +2,17 @@
 #define __OUTPUTREDIRECT_HPP__
 
 #include "rShell.hpp"
-#include "Execute.cpp"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-class OutputRedirect: public rShell {
-    public:
-    OutputRedirect();
-    OutputRedirect(Base* lhs, Base* rhs);
-    virtual bool execute(int input, int output);
-};
-
-
+class OutputRedirect : public rShell
+{
+  public:
+     OutputRedirect();
+     OutputRedirect(Base* lhs, Base* rhs);
+     bool execute(int inFile, int outFile);
+     char* getFilename();
+     bool isOutput();
+}
 #endif
