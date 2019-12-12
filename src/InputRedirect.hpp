@@ -8,7 +8,7 @@ class InputRedirect : public rShell {
   InputRedirect();
   InputRedirect(Base* rhs, Base* lhs);
   virtual bool execute(int inFile, int outFile);
-
+  virtual isInput(); 
 };
 
 #endif

@@ -6,16 +6,16 @@ using namespace std;
 
 OutputRedirect2::OutputRedirect2() { rShell::outputBegin = false; }
 
-OutputRedirect2::OutputRedirect2(CMDLine* left, CMDLine* right): Connector(left, right) {}
+OutputRedirect2::OutputRedirect2(Base* left, Base* right): rShell(left, right) {}
 
 char* OutputRedirect2::getFilename()
 {
-    return nullptr;
+    return NULL;
 }
 
-bool OutputRedirect2::execute(int inputFile, int outputFile)
+bool OutputRedirect2::execute(int inFile, int outFile)
 {
-    if(rhs->getFilename() == nullptr)
+    if(rhs->getFilename() == NULL)
     {
         cout << "Error: Filename?" << endl;
         return false;
@@ -42,7 +42,7 @@ bool OutputRedirect2::execute(int inputFile, int outputFile)
         rShell::outputBegin = false;
     }
 
-    return lhs->execute(inFile,outFile);
+    return lhs->execute(inFile, outFile);
 }
 
 bool OutputRedirect2::isOutput2()

@@ -11,8 +11,8 @@ class OutputRedirect : public rShell
   public:
      OutputRedirect();
      OutputRedirect(Base* lhs, Base* rhs);
-     bool execute(int inFile, int outFile);
      char* getFilename();
+     bool execute(int inFile, int outFile);
      bool isOutput();
 }
 #endif
