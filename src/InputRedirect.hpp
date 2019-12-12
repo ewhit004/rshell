@@ -2,7 +2,7 @@
 #define __INPUTREDIRECT_HPP__
 
 #include "rShell.hpp"
-#include "Execute.cpp"
+//#include "Execute.hpp"
 
 class InputRedirect : public rShell {
   public:
