@@ -13,11 +13,12 @@ using namespace std;
 
 class Piping : public rShell {
     public:
-    	Piping() : public rShell() {}
-    	Piping(rShell *left, rShell *right) : public rShell() {this->left = left; this->right = right;}
-
-    	virtual bool execute(int input, int output);
-
+    	Piping() : rShell() {}
+    	Piping(rShell *left, rShell *right) : rShell() {this->left = left; this->right = right;}
+	bool execute();
+    	bool execute(int output_fd, int pipeNum);
+	bool isPipe();
+	void exitOut();
     private:
 	rShell *left;
 	rShell *right;

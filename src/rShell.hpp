@@ -8,6 +8,8 @@ class rShell {
 		rShell(){};
 		virtual bool execute() = 0;
 		virtual void exitOut() = 0;
+		virtual bool isPipe() {return false;}
+		virtual bool execute(int output_fd, int pipeNum) {return false;}
 };
 
 #endif
