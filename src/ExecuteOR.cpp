@@ -2,7 +2,8 @@
 #include "ExecuteOR.hpp"
 using namespace std;
 
-bool ExecuteOR::execute() {    
+bool ExecuteOR::execute() {   
+    //cout << "Should not see this" << endl; 
     if (!(this->left->execute())) {
         return this->right->execute();
     }

@@ -3,6 +3,7 @@
 #include "ExecuteAND.hpp"
 #include "ExecuteOR.hpp"
 #include "ExecuteSEMI.hpp"
+#include "piping.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -53,6 +54,7 @@ int main() {
                                 userInput.erase(secIndex, 1);
                                 found = userInput.find('[');
                         }
+//cout << "57" << endl;
 			found = userInput.find('(');//looks for parenthesis in the userInput
 			if (found != string::npos) {
 				int x = 0;
@@ -73,6 +75,27 @@ int main() {
 					found = userInput.find('(');
 				}
 			}
+//cout << "78" << endl;
+//cout << "userInput before parse: " << userInput << endl;
+			found = userInput.find('|'); //Looks for any pipes but doesn't parse, encases everything to the left in parenthesis for correct tree build
+//			cout << userInput[found];
+			while (found != string::npos) {
+//					cout << userInput[found];
+				if (userInput[found + 1] != '|') {
+					//cout << "should output" << endl;
+					userInput.insert(0, "(");
+//					cout << userInput << endl;
+    					userInput.insert(found, ")");
+  //                                      cout << userInput << endl;
+					found = userInput.find('|', found + 3);
+				} else {found = userInput.find('|', found + 2);}
+			}
+//cout << "87" << endl;
+			found = userInput.find('(');
+			while (found != string::npos) {
+       	                        userInput = extractParenthesis(userInput, key, parenthesisMap);
+                                found = userInput.find('(');
+                        }
 			//cout << "userInput before parse: " << userInput << endl;
 			rShell* parentExecute = parse(userInput, quotedData, parenthesisMap);				
 			if(!parentExecute->execute()) {
@@ -91,11 +114,12 @@ int main() {
 void print() { cout << "$ "; }
 
 rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &parenthesisMap) {
+	//cout << userCommand << endl;
 	vector<string> parser;
 	size_t found1 = userCommand.find(';'); 	  //attempts to find any ; connectors in parsed content
         size_t found2 = userCommand.find("&&");	  //attempts to find any && connectors in parsed content 
-        size_t found3 = userCommand.find("||");	  //attempts to find any || connectors in parsed content
-	
+        size_t found3 = userCommand.find('|');	  //attempts to find any || connectors in parsed content
+	//size_t found4 = userCommand.find('|');   //attempts to find any | connectors in parsed content
 	string leftParse;
 	string rightParse;
 
@@ -130,8 +154,8 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 		rShell* execute = new Execute(parser);
 		return execute;
 	}
-
-	else if(found1 != string::npos) {
+	pipeParse:
+	if(found1 != string::npos) {
 		leftParse = userCommand.substr(0, found1);
 		rightParse = userCommand.substr(found1 + 1, userCommand.size() - 1);
                 rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
@@ -150,12 +174,31 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 	}
 
 	else if(found3 != string::npos) {
-		leftParse = userCommand.substr(0, found3);
-                rightParse = userCommand.substr(found3 + 2, userCommand.size() - 1);
-                rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
+//		cout << "176" << endl;
+		if (userCommand[found3 + 1] == '|') {
+			leftParse = userCommand.substr(0, found3);
+	                rightParse = userCommand.substr(found3 + 2, userCommand.size() - 1);
+	                rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
+	                rShell* exec2 = parse(rightParse, quotedData, parenthesisMap);
+	                rShell* orExec = new ExecuteOR(exec1, exec2);
+	                return orExec;
+		}
+  //              cout << "185" << endl;
+		int pipeIndex = found3;
+		found1 = userCommand.find(';', found3 + 1);
+        	found2 = userCommand.find("&&", found3 + 1);
+        	found3 = userCommand.find("||", found3 + 1);
+		if ((found1 != string::npos || found2 != string::npos) || found3 != string::npos) {
+			goto pipeParse;
+		}
+    //            cout << "176" << endl;
+		leftParse = userCommand.substr(0, pipeIndex);
+                rightParse = userCommand.substr(pipeIndex + 1, userCommand.size() - 1);
+       	        rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
                 rShell* exec2 = parse(rightParse, quotedData, parenthesisMap);
-                rShell* orExec = new ExecuteOR(exec1, exec2);
-                return orExec;
+                rShell* pipeExec = new Piping(exec1, exec2);
+//		cout << "Should return pipeExec" << endl;
+                return pipeExec;
 	}
 }
 
