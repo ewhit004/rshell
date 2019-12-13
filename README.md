@@ -16,16 +16,28 @@ This class is the implementation, virtual, class that will run functions as they
 
   
 **execute class →**
-This class simply executes a single executable normally, when no connectors are found.
+This class that simply executes a single executable normally, when no connectors are found.
   
 **executeAND class →**
-A class that will first execute the first Execute* in the vector and will only move on to the next executable in the vector if the first one is successful. 
+A class that starts with executing the first Execute* in the vector and will only move on to the next executable in the vector if the first one is successful. 
 
 **executeOR class →**
-A class that will execute the first Execute* in the vector and will move onto the next, if and only if, the first one fails.
+A class that executes the first Execute* in the vector and will move onto the next, if and only if, the first one fails.
 
 **executeSEMI class →**
-A class that will always execute the first Execute* in the vector, no matter what, and execute the following executables regardless of failure or success.
+A class that always executes the first Execute* in the vector, no matter what, and execute the following executables regardless of failure or success.
+
+**InputRedirect class →**
+A class that reads content of the file as input for the executable.
+
+**OutputRedirect class →**
+A class that writes the results of an executable file; clearing what was initially inside of the file.
+
+**OutputRedirect2 class →**
+A class that writes the results of an executable file and append new additions to the end of the file.
+
+**Piping class →**
+A class that executes the left side of the tree and treats the output for that program as input for the executable on the right.
 
 # *Prototypes & Research*
 
