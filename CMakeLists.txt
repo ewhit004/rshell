@@ -11,6 +11,10 @@ ADD_EXECUTABLE(rshell
     src/ExecuteAND.cpp
     src/ExecuteSEMI.cpp
     src/piping.cpp 
+    src/piping.cpp
+    src/InputRedirect.cpp
+    src/OutputRedirect.cpp    
+    src/OutputRedirect2.cpp
 )
 
 ADD_EXECUTABLE(test

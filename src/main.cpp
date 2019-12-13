@@ -4,6 +4,9 @@
 #include "ExecuteOR.hpp"
 #include "ExecuteSEMI.hpp"
 #include "piping.hpp"
+#include "InputRedirect.hpp"
+#include "OutputRedirect.hpp"
+#include "OutputRedirect2.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -34,7 +37,6 @@ int main() {
 		if(userInput != "") {
 			string targetString; //if command has a quoted string(s), temporarly stored here and then into vector
 			vector<string> quotedData;
-			//vector<string> parenthesisData;
 			size_t found = userInput.find('"');
 			int firstIndex;
 			int secIndex;
@@ -54,7 +56,6 @@ int main() {
                                 userInput.erase(secIndex, 1);
                                 found = userInput.find('[');
                         }
-//cout << "57" << endl;
 			found = userInput.find('(');//looks for parenthesis in the userInput
 			if (found != string::npos) {
 				int x = 0;
@@ -75,28 +76,34 @@ int main() {
 					found = userInput.find('(');
 				}
 			}
-//cout << "78" << endl;
-//cout << "userInput before parse: " << userInput << endl;
-			found = userInput.find('|'); //Looks for any pipes but doesn't parse, encases everything to the left in parenthesis for correct tree build
-//			cout << userInput[found];
+			found = userInput.find('|'); //Looks for any pipes but doesn't parse, encases everything to the left in parenthesis for correct tree building
 			while (found != string::npos) {
-//					cout << userInput[found];
 				if (userInput[found + 1] != '|') {
-					//cout << "should output" << endl;
 					userInput.insert(0, "(");
-//					cout << userInput << endl;
     					userInput.insert(found, ")");
-  //                                      cout << userInput << endl;
 					found = userInput.find('|', found + 3);
 				} else {found = userInput.find('|', found + 2);}
 			}
-//cout << "87" << endl;
+			found = userInput.find("<>"); //Looks for any i/o redirection but doesn't parse, encases everything to the left in parenthesis for correct tree building
+                        while (found != string::npos) {
+				if(userInput[found] == '>') {
+					userInput.insert(0, "(");
+					userInput.insert(found, ")");
+					if(userInput[found + 3] == '>') {
+						found = userInput.find("<>", found + 4);
+					} else {found = userInput.find("<>", found + 3);}
+				} else {
+					userInput.insert(0, "(");
+                                        userInput.insert(found, ")");
+					found = userInput.find("<>", found + 3);
+				}
+                        }
 			found = userInput.find('(');
 			while (found != string::npos) {
        	                        userInput = extractParenthesis(userInput, key, parenthesisMap);
                                 found = userInput.find('(');
                         }
-			//cout << "userInput before parse: " << userInput << endl;
+			cout << "Userinput before parse: " << userInput << endl;
 			rShell* parentExecute = parse(userInput, quotedData, parenthesisMap);				
 			if(!parentExecute->execute()) {
 				cout << "Execution failed" << endl;
@@ -114,15 +121,14 @@ int main() {
 void print() { cout << "$ "; }
 
 rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &parenthesisMap) {
-	//cout << userCommand << endl;
 	vector<string> parser;
 	size_t found1 = userCommand.find(';'); 	  //attempts to find any ; connectors in parsed content
         size_t found2 = userCommand.find("&&");	  //attempts to find any && connectors in parsed content 
         size_t found3 = userCommand.find('|');	  //attempts to find any || connectors in parsed content
-	//size_t found4 = userCommand.find('|');   //attempts to find any | connectors in parsed content
+	size_t found4 = userCommand.find('<');    //attempts to find any < connectors in parsed content
+	size_t found5 = userCommand.find('>');    //attempts to find any > connectors in parsed content
 	string leftParse;
 	string rightParse;
-
 	if((found1 == string::npos && found2 == string::npos) && found3 == string::npos) {
 		//command does not have a connector
 		vector<string> parser;
@@ -154,7 +160,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 		rShell* execute = new Execute(parser);
 		return execute;
 	}
-	pipeParse:
+	restartParse:
 	if(found1 != string::npos) {
 		leftParse = userCommand.substr(0, found1);
 		rightParse = userCommand.substr(found1 + 1, userCommand.size() - 1);
@@ -174,7 +180,6 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 	}
 
 	else if(found3 != string::npos) {
-//		cout << "176" << endl;
 		if (userCommand[found3 + 1] == '|') {
 			leftParse = userCommand.substr(0, found3);
 	                rightParse = userCommand.substr(found3 + 2, userCommand.size() - 1);
@@ -183,22 +188,64 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 	                rShell* orExec = new ExecuteOR(exec1, exec2);
 	                return orExec;
 		}
-  //              cout << "185" << endl;
 		int pipeIndex = found3;
 		found1 = userCommand.find(';', found3 + 1);
         	found2 = userCommand.find("&&", found3 + 1);
         	found3 = userCommand.find("||", found3 + 1);
+		found4 = userCommand.find('<', found3 + 1);
+                found5 = userCommand.find('>', found3 + 1);
 		if ((found1 != string::npos || found2 != string::npos) || found3 != string::npos) {
-			goto pipeParse;
+			goto restartParse;
 		}
-    //            cout << "176" << endl;
 		leftParse = userCommand.substr(0, pipeIndex);
                 rightParse = userCommand.substr(pipeIndex + 1, userCommand.size() - 1);
        	        rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
                 rShell* exec2 = parse(rightParse, quotedData, parenthesisMap);
                 rShell* pipeExec = new Piping(exec1, exec2);
-//		cout << "Should return pipeExec" << endl;
                 return pipeExec;
+	}
+	else if(found4 != string::npos) { //input parse
+		int inputIndex = found4;
+		found1 = userCommand.find(';', found4 + 1);
+                found2 = userCommand.find("&&", found4 + 1);
+                found3 = userCommand.find("||", found4 + 1);
+		found4 = userCommand.find('<', found4 + 1);
+		found5 = userCommand.find('>', found4 + 1);
+		if ((found1 != string::npos || found2 != string::npos) || found3 != string::npos) {
+                        goto restartParse;
+                }
+		leftParse = userCommand.substr(0, inputIndex);
+                string fileName = userCommand.substr(inputIndex + 2, userCommand.size() - 1);
+                rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
+		rShell* inputExec = new InputRedirect(exec1, fileName);
+		return inputExec;
+	}
+	else if(found5 != string::npos) { //output parse
+		int outputIndex = found5;
+		found1 = userCommand.find(';', found5 + 1);
+                found2 = userCommand.find("&&", found5 + 1);
+                found3 = userCommand.find("||", found5 + 1);
+                found4 = userCommand.find('<', found5 + 1);
+		if(userCommand[outputIndex + 1] == '>') {
+			found5 = userCommand.find('>', found5 + 2);
+		} else {found5 = userCommand.find('>', found5 + 1);}
+                if ((found1 != string::npos || found2 != string::npos) || found3 != string::npos) {
+                        goto restartParse;
+                }
+		if (userCommand[outputIndex + 1] == '>') {
+			leftParse = userCommand.substr(0, outputIndex);
+			string fileName = userCommand.substr(outputIndex + 3, userCommand.size() - 1);
+			rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);          
+			rShell* out2Exec = new OutputRedirect(exec1, fileName);
+			return out2Exec;
+		}
+		else {
+			leftParse = userCommand.substr(0, outputIndex);
+                        string fileName = userCommand.substr(outputIndex + 2, userCommand.size() - 1);
+                        rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);
+                        rShell* outExec = new OutputRedirect(exec1, fileName);
+                        return outExec;
+		}
 	}
 }
 

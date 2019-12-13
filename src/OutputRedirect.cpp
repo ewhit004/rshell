@@ -3,12 +3,12 @@
 
 using namespace std;
 
-OutputRedirect::OutputRedirect()
+/*OutputRedirect::OutputRedirect()
 {
     rShell::outputBegin = false;
-}
+}*/
 
-OutputRedirect::OutputRedirect(Base* lhs, Base* rhs): rShell(lhs, rhs) {}
+//OutputRedirect::OutputRedirect(Base* lhs, Base* rhs): rShell(lhs, rhs) {}
 
 char* OutputRedirect::getFilename()
 {
