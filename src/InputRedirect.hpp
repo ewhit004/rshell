@@ -1,6 +1,5 @@
 #ifndef __INPUTREDIRECT_HPP__
 #define __INPUTREDIRECT_HPP__
-
 #include "rShell.hpp"
 #include <string>
 class InputRedirect : public rShell {
@@ -8,11 +7,8 @@ class InputRedirect : public rShell {
   InputRedirect() : rShell() {}
   InputRedirect(rShell* lhs, string fileName) : rShell() {this->lhs = lhs; this->fileName = fileName;}
   virtual bool execute();
-  //bool isInput(); 
   private:
 	rShell* lhs;
 	string fileName;
 };
-
 #endif
-
