@@ -9,11 +9,7 @@ Our goal for this assignment is to design a command shell called RShell with C++
 
 # *Classes* 
 **rShell (base class) →**
-This class is the implementation, virtual, class that will run functions as they arise in our RShell terminal. 
-|| *virtual void print () = 0;* This function is purely virtual, which will permit it to be implemented in parent and subclasses. 
-|| *virtual void execute(vector <Executable*> execs) = 0;*   This function is also purely virtual. However, our planned implementation                                                                for sub and parent classes, would be to let the user execute their commands                                                              on the lines given in our shell. It is passed in a vector of executable                                                                  files to be executed depending on the connector.
-|| *exit();*         As the name implies, this function will allow the user to exit their current state in the program. || Our rShell class now uses and tests for *precedence* when parsing through input from the user. Our rShell also runs unit tests via the test executable.
-
+This class is the implementation, virtual, class that will run functions as they arise in our RShell terminal. Everything inherits from this class as it is the base class.
   
 **execute class →**
 This class that simply executes a single executable normally, when no connectors are found.
