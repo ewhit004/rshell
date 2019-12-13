@@ -5,6 +5,10 @@
 #include "../src/ExecuteAND.hpp"
 #include "../src/ExecuteOR.hpp"
 #include "../src/ExecuteSEMI.hpp"
+#include "../src/InputRedirect.hpp"
+#include "../src/OutputRedirect.hpp"
+#include "../src/OutputRedirect2.hpp"
+#include "../src/piping.hpp"
 
 TEST(ExecuteTest, ExecuteLS) {
 	vector<string> str1 = {"ls", "-a"};
@@ -128,5 +132,37 @@ TEST(ExecParseTest, ParserTest2) {
 	ExecuteOR* execParseTest3 = new ExecuteOR(execParseTest1, execParseTest2);
 	EXPECT_EQ(execParseTest3->execute(), true);
 }
+
+/*TEST(InputRedTest, InputTest) {
+	vector<string> executeInputRed;
+	executeInputRed.push_back("cat");
+	Execute* executeInRed = new Execute(executeInputRed);
+	InputRedirect* execInRed = new InputRedirect(executeInRed, unit_tests/testingRedirect.txt);
+	EXPECT_EQ(execInRed->execute(), true);
+}
+
+TEST(OutputRedTest, OutputTest) {
+        vector<string> executeOutputRed;
+        executeInputRed.push_back("cat");
+        Execute* executeInRed = new Execute(executeInputRed);
+        InputRedirect* execInRed = new InputRedirect(executeInRed, unit_tests/testingRedirect.txt);
+        EXPECT_EQ(execInRed->execute(), true);
+}*/
+
+TEST(PipingTest, PipingTest) {
+        vector<string> executePiping1;
+	vector<string> executePiping2;
+        executePiping1.push_back("cat");
+	executePiping1.push_back("testingRedirect.txt");
+	executePiping2.push_back("tr");
+	executePiping2.push_back("a-z");
+	executePiping2.push_back("A-Z");
+        rShell* executePipe1 = new Execute(executePiping1);
+	rShell* executePipe2 = new Execute(executePiping2);
+        Piping* execAllPipes = new Piping(executePipe1, executePipe2);
+        EXPECT_EQ(execAllPipes->execute(), true);
+}
+
+
 
 #endif
