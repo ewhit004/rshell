@@ -2,13 +2,16 @@
 #define __INPUTREDIRECT_HPP__
 
 #include "rShell.hpp"
-
+#include <string>
 class InputRedirect : public rShell {
   public:
-  InputRedirect();
-  InputRedirect(Base* rhs, Base* lhs);
-  virtual bool execute(int inFile, int outFile);
-  virtual isInput(); 
+  InputRedirect() : rShell() {}
+  InputRedirect(rShell* lhs, string fileName) : rShell() {this->lhs = lhs; this->fileName = fileName;}
+  virtual bool execute();
+  //bool isInput(); 
+  private:
+	rShell* lhs;
+	string fileName;
 };
 
 #endif

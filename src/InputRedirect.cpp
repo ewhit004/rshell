@@ -1,6 +1,6 @@
 #include "rShell.hpp"
 #include "InputRedirect.hpp"
-
+#include <iostream>
 #include <stdio.h>
 #include <fstream>
 #include <unistd.h>
@@ -12,11 +12,11 @@
 
 using namespace std;
 
-InputRedirect::InputRedirect(): rShell() {}
+/*InputRedirect::InputRedirect(): rShell() {}
 InputRedirect::InputRedirect(Base* lhs, Base* rhs): rShell(lhs, rhs) {}
+*/
 
-
-bool InputRedirect::execute(int inFile, int outFile) {
+bool InputRedirect::execute() {
     if(right->getFilename() == NULL)
     {
         cout << "Error: Filename?";
