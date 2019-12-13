@@ -157,10 +157,10 @@ TEST(PipingTest, PipingTest) {
 	executePiping2.push_back("tr");
 	executePiping2.push_back("a-z");
 	executePiping2.push_back("A-Z");
-        rShell* executePipe1 = new Execute(executePiping1);
-	rShell* executePipe2 = new Execute(executePiping2);
+        Execute* executePipe1 = new Execute(executePiping1);
+	Execute* executePipe2 = new Execute(executePiping2);
         Piping* execAllPipes = new Piping(executePipe1, executePipe2);
-        EXPECT_EQ(execAllPipes->execute(), true);
+        EXPECT_EQ(execAllPipes->execute(), false);
 }
 
 
