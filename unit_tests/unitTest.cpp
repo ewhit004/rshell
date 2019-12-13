@@ -5,6 +5,7 @@
 #include "../src/ExecuteAND.cpp"
 #include "../src/ExecuteOR.cpp"
 #include "../src/ExecuteSEMI.cpp"
+#include "../src/piping.cpp"
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
