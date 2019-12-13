@@ -1,4 +1,3 @@
-#include <iostream>
 #include "rShell.hpp"
 #include "ExecuteAND.hpp"
 using namespace std;
@@ -9,5 +8,3 @@ bool ExecuteAND::execute() {
    }
    return false; 
 }
-
-void ExecuteAND::exitOut() { exit(0); }

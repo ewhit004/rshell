@@ -1,10 +1,8 @@
-//#include <iostream>
 #include "rShell.hpp"
 #include "piping.hpp"
-#include <iostream>
 #include <limits>
+#include <iostream>
 using namespace std;
-
 bool Piping::execute() {
 	int savedStdIn = dup(0);
 	int savedStdOut = dup(1);
@@ -63,9 +61,8 @@ bool Piping::execute(int output_fd, int pipeNum) {
                         if (status == -1) {
                                 cout << "Error in dup2, line 42" << endl;
                         }
-                        cout << "51" << endl;
                         close(pipe_fd[0]);
-                        close(pipe_fd[1]); //Don't know if this line is needed*/
+                        close(pipe_fd[1]);
 			leftStatus = left->execute();
 			if(!leftStatus) {exit(1);}
 			else {exit(0);}
@@ -74,5 +71,3 @@ bool Piping::execute(int output_fd, int pipeNum) {
 }
 
 bool Piping::isPipe() {return true;}
-void Piping::exitOut() { exit(0); }
-

@@ -8,13 +8,11 @@
 #include "OutputRedirect.hpp"
 #include "OutputRedirect2.hpp"
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <string.h>
 #include <cstring>
-#include <stdlib.h>
 #include <map>
-#include <stdio.h>
 using namespace std;
 
 rShell* parse(string targetCommand, vector<string> &quotedData, map<int, string> &parenthesisMap);
@@ -84,27 +82,21 @@ int main() {
 					found = userInput.find('|', found + 3);
 				} else {found = userInput.find('|', found + 2);}
 			}
-			found = userInput.find("<>"); //Looks for any i/o redirection but doesn't parse, encases everything to the left in parenthesis for correct tree building
-                        while (found != string::npos) {
-				if(userInput[found] == '>') {
-					userInput.insert(0, "(");
-					userInput.insert(found, ")");
-					if(userInput[found + 3] == '>') {
-						found = userInput.find("<>", found + 4);
-					} else {found = userInput.find("<>", found + 3);}
-				} else {
-					userInput.insert(0, "(");
-                                        userInput.insert(found, ")");
-					found = userInput.find("<>", found + 3);
-				}
-                        }
+			found = userInput.find_first_of("<>"); //Looks for any i/o redirection but doesn't parse, encases everything to the left in parenthesis for correct tree building
+			while(found != string::npos) {
+				userInput.insert(0, "(");
+                                userInput.insert(found, ")");
+				if(userInput[found + 3] == '>') {
+					found += 4;
+				} else {found += 3;}
+				found = userInput.find_first_of("<>", found);
+			}		
 			found = userInput.find('(');
 			while (found != string::npos) {
        	                        userInput = extractParenthesis(userInput, key, parenthesisMap);
                                 found = userInput.find('(');
                         }
-			cout << "Userinput before parse: " << userInput << endl;
-			rShell* parentExecute = parse(userInput, quotedData, parenthesisMap);				
+			rShell* parentExecute = parse(userInput, quotedData, parenthesisMap);			
 			if(!parentExecute->execute()) {
 				cout << "Execution failed" << endl;
 			}
@@ -129,7 +121,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 	size_t found5 = userCommand.find('>');    //attempts to find any > connectors in parsed content
 	string leftParse;
 	string rightParse;
-	if((found1 == string::npos && found2 == string::npos) && found3 == string::npos) {
+	if((((found1 == string::npos && found2 == string::npos) && found3 == string::npos) && found4 == string::npos) && found5 == string::npos)  {
 		//command does not have a connector
 		vector<string> parser;
 		char c_userCommand[userCommand.length() + 1];//have to convert string into array of chars to use strtokpoint = strtok(c_userCommand, "&&");
@@ -194,7 +186,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
         	found3 = userCommand.find("||", found3 + 1);
 		found4 = userCommand.find('<', found3 + 1);
                 found5 = userCommand.find('>', found3 + 1);
-		if ((found1 != string::npos || found2 != string::npos) || found3 != string::npos) {
+		if ((((found1 != string::npos || found2 != string::npos) || found3 != string::npos) || found4 != string::npos) || found5 != string::npos) {
 			goto restartParse;
 		}
 		leftParse = userCommand.substr(0, pipeIndex);
@@ -211,7 +203,7 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
                 found3 = userCommand.find("||", found4 + 1);
 		found4 = userCommand.find('<', found4 + 1);
 		found5 = userCommand.find('>', found4 + 1);
-		if ((found1 != string::npos || found2 != string::npos) || found3 != string::npos) {
+		if ((((found1 != string::npos || found2 != string::npos) || found3 != string::npos)|| found4 != string::npos) || found5 != string::npos) {
                         goto restartParse;
                 }
 		leftParse = userCommand.substr(0, inputIndex);
@@ -229,14 +221,14 @@ rShell* parse(string userCommand, vector<string> &quotedData, map<int, string> &
 		if(userCommand[outputIndex + 1] == '>') {
 			found5 = userCommand.find('>', found5 + 2);
 		} else {found5 = userCommand.find('>', found5 + 1);}
-                if ((found1 != string::npos || found2 != string::npos) || found3 != string::npos) {
+                if ((((found1 != string::npos || found2 != string::npos) || found3 != string::npos) || found4 != string::npos) || found5 != string::npos){
                         goto restartParse;
                 }
 		if (userCommand[outputIndex + 1] == '>') {
 			leftParse = userCommand.substr(0, outputIndex);
 			string fileName = userCommand.substr(outputIndex + 3, userCommand.size() - 1);
 			rShell* exec1 = parse(leftParse, quotedData, parenthesisMap);          
-			rShell* out2Exec = new OutputRedirect(exec1, fileName);
+			rShell* out2Exec = new OutputRedirect2(exec1, fileName);
 			return out2Exec;
 		}
 		else {

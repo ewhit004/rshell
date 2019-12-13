@@ -1,34 +1,16 @@
-#include "rShell.hpp"
 #include "InputRedirect.hpp"
 #include <iostream>
-#include <stdio.h>
-#include <fstream>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <cstdlib>
-#include <fcntl.h>
-#include <string>
-
 using namespace std;
-
-/*InputRedirect::InputRedirect(): rShell() {}
-InputRedirect::InputRedirect(Base* lhs, Base* rhs): rShell(lhs, rhs) {}
-*/
-
 bool InputRedirect::execute() {
-    if(right->getFilename() == NULL)
-    {
-        cout << "Error: Filename?";
-        return false;
-    }
-
-    inFile = open(right->getFilename(), O_RDONLY);
-    return left->execute(inFile, outFile);
+	int savedStdIn = dup(0);
+	int file_desc = open(this->fileName.c_str(), O_RDONLY);
+	if(file_desc < 0) {
+        	cout << "Error opening the file" << endl;
+		return false;
+	}
+	dup2(file_desc, 0);
+	close(file_desc);
+	bool status = lhs->execute();
+	dup2(savedStdIn, 0);
+	return status;
 }
-
-bool InputRedirection::isInput()
-{
-    return true;
-}
-
