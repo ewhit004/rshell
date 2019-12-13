@@ -8,11 +8,14 @@
 
 class OutputRedirect2 : public rShell {
     public:
-    OutputRedirect2();
-    OutputRedirect2(Base* lhs, Base* rhs);
+    OutputRedirect2() : rShell() {}
+    OutputRedirect2(rShell* lhs, string fileName) : rShell() {this->lhs = lhs; this->fileName = fileName;}
     char* getFilename();
     bool execute(int inFile, int outFile);
     bool isOutput2();
+    private: 
+	rShell* lhs;
+	string fileName;
 };
 
 #endif

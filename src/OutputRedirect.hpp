@@ -9,10 +9,13 @@
 class OutputRedirect : public rShell
 {
   public:
-     OutputRedirect();
-     OutputRedirect(Base* lhs, Base* rhs);
+     OutputRedirect() : rShell() {}
+     OutputRedirect(rShell* lhs, string fileName) : rShell() {this->lhs = lhs; this->fileName = fileName;}
      char* getFilename();
-     bool execute(int inFile, int outFile);
+     bool execute();
      bool isOutput();
-}
+  private: 
+	rShell* lhs;
+	string fileName;
+};
 #endif
