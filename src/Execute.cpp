@@ -1,31 +1,12 @@
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <stdio.h> //for perror and fork
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <vector>
-#include <string>
 #include "rShell.hpp"
 #include "Execute.hpp"
+#include <iostream> 
 using namespace std;
 
-/*Execute::Execute(char* argv[], int size) { 
-	for (unsigned int i = 0; i < size; ++i) {
-		this->argv[i] = argv[i];
-	}
-}*/
-
-//----------------------------------------------------------------------
 bool Execute::execute() {
 	if (this->argvString.at(0) == "test") { //special case where test is executable. NOT supposed to use execvp
 		struct stat buf;
 		bool temp = false;
-		//stat(this->argvString.at(argvString.size() - 1).c_str(), &buf);
 		if (stat(argvString.at(argvString.size() - 1).c_str(), &buf) == 0) {
 	                if (this->argvString.at(1) == "-f") { //checks if the file/directory exists and is a regular file
 				if(S_ISREG(buf.st_mode)) {
@@ -72,14 +53,7 @@ bool Execute::execute() {
 		if(status > 0) {
 			return false;
 		}
-		//waitpid(pid, NULL, 0);
-		//cout << "Parent process finished successful" << endl;
 		return true;
 	}	
 	return false;
-}
-//----------------------------------------------------------------------	
-
-void Execute::exitOut() { 
-	exit(0);
 }
