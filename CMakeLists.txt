@@ -10,7 +10,7 @@ ADD_EXECUTABLE(rshell
     src/ExecuteOR.cpp
     src/ExecuteAND.cpp
     src/ExecuteSEMI.cpp
-    #src/Execute.cpp
+    src/piping.cpp 
 )
 
 ADD_EXECUTABLE(test
